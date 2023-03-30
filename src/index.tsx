@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from './routes/RootLayout';
 import CreateEmployee from './routes/CreateEmployee';
+import CreateEmployeeMovement from './routes/CreateEmployeeMovement';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -14,7 +15,8 @@ const root = ReactDOM.createRoot(
 const router = createBrowserRouter([
     {path: '/', element: <RootLayout />, children: [
         {path: 'employees', element: null, children: [
-            {path: 'create', element: <CreateEmployee />}
+            {path: 'create', element: <CreateEmployee />},
+            {path: 'create-movement', element: <CreateEmployeeMovement />}
         ]}
     ]}
 ]);
