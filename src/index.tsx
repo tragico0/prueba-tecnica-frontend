@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from './routes/RootLayout';
 import CreateEmployee from './routes/CreateEmployee';
 import CreateEmployeeMovement from './routes/CreateEmployeeMovement';
+import loadEmployeesCreateData from './loaders/load-employee-create-data';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -15,7 +16,7 @@ const root = ReactDOM.createRoot(
 const router = createBrowserRouter([
     {path: '/', element: <RootLayout />, children: [
         {path: 'employees', element: null, children: [
-            {path: 'create', element: <CreateEmployee />},
+            {path: 'create', element: <CreateEmployee />, loader: loadEmployeesCreateData},
             {path: 'create-movement', element: <CreateEmployeeMovement />}
         ]}
     ]}

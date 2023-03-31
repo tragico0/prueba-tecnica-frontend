@@ -1,11 +1,12 @@
-import { props } from "bluebird";
-import { isEmpty, isNil } from "lodash";
-import { useState } from "react";
+import { isNil } from "lodash";
+import React from "react";
 import EmployeeRoleOption from "./EmployeeRoleOption";
 
 interface Props {
     children?: React.ReactNode,
-    roles: string[]
+    roles: string[],
+    selectedCode?: string,
+    onRoleCheck: (e: React.FormEvent<HTMLInputElement>) => void
 }
 
 interface RoleCodeLabels {
@@ -21,8 +22,6 @@ const roleCodeLabels: RoleCodeLabels = {
 };
 
 export default function SelectEmployeeRole (props: Props) {
-    const [selectedCode, setSelectedCode] = useState(isEmpty(props.roles) ? '' : props.roles[0]);
-
     if (isNil(props.roles)) {
         return (<div>No hay roles</div>);
     }
@@ -35,11 +34,7 @@ export default function SelectEmployeeRole (props: Props) {
     });
 
     const isOptionsChecked = function (code: string) {
-        return code === selectedCode;
-    };
-
-    const handleRoleCheck = function (e: React.FormEvent<HTMLInputElement>) {
-        setSelectedCode(e.currentTarget.dataset?.roleCode ?? '');
+        return code === props.selectedCode;
     };
 
     return (
@@ -53,10 +48,10 @@ export default function SelectEmployeeRole (props: Props) {
                     {roles.map((role: any, index: number) => (
                         <EmployeeRoleOption
                             key={index}
-                            roleCode={role.code}
                             label={role.label}
+                            roleCode={role.code}
                             isChecked={isOptionsChecked(role.code)}
-                            onChange={handleRoleCheck}
+                            onChange={props.onRoleCheck}
                         />
                     ))}
                     </div>

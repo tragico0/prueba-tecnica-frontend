@@ -1,29 +1,63 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { redirect, useLoaderData, useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
 import SelectEmployeeRole from "../components/SelectEmployeeRole";
-import { useRoles } from "../utils/api";
+import { CreateEmployeeFormContext, CreateEmployeeFormData, defaultFormDataValues } from '../store/createEmployeeFormContext';
+import { createNewEmployee } from "../utils/api";
+import { RoleCode } from "../utils/enums";
 
 export default function CreateEmployee () {
+    const [formData, setFormData] = useState<CreateEmployeeFormData>(defaultFormDataValues);
+    const navigate = useNavigate();
+
+    async function handleCreateNewEmployee (e: React.MouseEvent<HTMLButtonElement>) {
+        try {
+            const response = await createNewEmployee(formData);
+            if (response.ok) {
+                return navigate('..');
+            }
+
+            const errorBody = await response.json();
+            console.info('There was an error when trying to create the employee', response.status, errorBody);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <div className="container">
-            <FormContainer title="Empleados">
-                <CreateEmployeeForm/>
-            </FormContainer>
+            <CreateEmployeeFormContext.Provider value={{formData, setFormData}}>
+                <FormContainer title="Empleados" onClickNewButton={handleCreateNewEmployee}>
+                    <CreateEmployeeForm/>
+                </FormContainer>
+            </CreateEmployeeFormContext.Provider>
         </div>
     );
 }
 
 function CreateEmployeeForm () {
-    const [reference, setReference] = useState('');
-    const [name, setName] = useState('');
-    const {data: roles, error} = useRoles();
+    const { formData, setFormData } = useContext(CreateEmployeeFormContext);
+    const { roles } = useLoaderData() as { roles: any[] };
 
     const handleOnReferenceChange = (e: React.FormEvent<HTMLInputElement>) => {
-        setReference(e.currentTarget.value);
+        setFormData({
+            ...formData,
+            reference: e.currentTarget.value
+        });
     };
 
     const handleOnNameChange = (e: React.FormEvent<HTMLInputElement>) => {
-        setName(e.currentTarget.value);
+        setFormData({
+            ...formData,
+            name: e.currentTarget.value
+        });
+    };
+
+    const handleOnRoleCheck = (e: React.FormEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            roleCode: e.currentTarget.dataset?.roleCode ?? RoleCode.DRIVER
+        });
     };
 
     return (
@@ -34,18 +68,18 @@ function CreateEmployeeForm () {
                         <div className="row my-3">
                             <label htmlFor="inputReference" className="col-sm-2 col-form-label">N&uacute;mero:</label>
                             <div className="col-sm-10">
-                                <input type="text" id="inputReference" className="form-control" onChange={handleOnReferenceChange} value={reference} />
+                                <input type="text" id="inputReference" className="form-control" onChange={handleOnReferenceChange} value={formData.reference} />
                             </div>
                         </div>
                         <div className="row mb-3">
                             <label htmlFor="inputName" className="col-sm-2 col-form-label">Nombre:</label>
                             <div className="col-sm-10">
-                                <input type="text" id="inputName" className="form-control" onChange={handleOnNameChange} value={name} />
+                                <input type="text" id="inputName" className="form-control" onChange={handleOnNameChange} value={formData.name} />
                             </div>
                         </div>
                         <div className="row mb-3">
                             <div className="col">
-                                <SelectEmployeeRole roles={roles} />
+                                <SelectEmployeeRole selectedCode={formData.roleCode} roles={roles} onRoleCheck={ handleOnRoleCheck} />
                             </div>
                         </div>
                     </div>

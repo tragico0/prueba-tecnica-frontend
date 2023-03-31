@@ -25,6 +25,26 @@ export enum Endpoint {
     GetRoles = '/roles'
 }
 
+
+/* Posting */
+
+export function createNewEmployee (data: any) {
+    const { name, ...passthrough } = data;
+    return fetch(getEndpointUrl(Endpoint.CreateEmployee), {
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            data: {
+                ...passthrough,
+                firstName: name,
+            }
+        })
+    });
+}
+
+
 /* Fetching */
 
 function parseResponseWithDataKey (response: SWRResponse) {
@@ -43,3 +63,6 @@ export function useRoles () {
     return parseResponseWithDataKey(response);
 }
    
+export function fetchEmployeeRoles () {
+    return fetch(getEndpointUrl(Endpoint.GetRoles));
+}
