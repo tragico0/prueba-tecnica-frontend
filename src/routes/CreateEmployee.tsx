@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import FormContainer from "../components/FormContainer";
 import SelectEmployeeRole from "../components/SelectEmployeeRole";
+import { useRoles } from "../utils/api";
 
 export default function CreateEmployee () {
     return (
         <div className="container">
             <FormContainer title="Empleados">
-                <CreateEmployeeForm />
+                <CreateEmployeeForm/>
             </FormContainer>
         </div>
     );
@@ -15,11 +16,7 @@ export default function CreateEmployee () {
 function CreateEmployeeForm () {
     const [reference, setReference] = useState('');
     const [name, setName] = useState('');
-    const roles = [
-        {id: 1, label: 'Chofer'},
-        {id: 2, label: 'Cargador'},
-        {id: 3, label: 'Auxiliar'}
-    ];
+    const {data: roles, error} = useRoles();
 
     const handleOnReferenceChange = (e: React.FormEvent<HTMLInputElement>) => {
         setReference(e.currentTarget.value);

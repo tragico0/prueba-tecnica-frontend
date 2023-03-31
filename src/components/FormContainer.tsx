@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import styles from '../styles/FormContainer.module.css';
 
 type Props = {
+    ref?: React.RefObject<unknown>
     title?: string,
-    children?: React.ReactNode
+    children?: React.ReactNode,
+    onClickNewButton?: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export default function FormContainer (props: Props) {
@@ -21,7 +23,7 @@ export default function FormContainer (props: Props) {
                     <div className="col mx-5 my-3">
                         <div className="row">
                             <div className="col mb-3 p-0">
-                                <button type="button" className="btn btn-primary">Nuevo</button>
+                                <button type="button" className="btn btn-primary" onClick={props.onClickNewButton}>Nuevo</button>
                             </div>
                         </div>
                         <div className="row">

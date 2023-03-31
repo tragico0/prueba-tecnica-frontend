@@ -4,12 +4,12 @@ export default function EmployeeRoleOption (props: any) {
             <input className="form-check-input"
                 type="checkbox"
                 value=""
-                id={props.id}
+                id={props.roleCode}
                 checked={props.isChecked}
                 onChange={props.onChange}
-                data-role-id={props.roleId}
+                data-role-code={props.roleCode}
             />
-            <label className="form-check-label" htmlFor={props.id}>
+            <label className="form-check-label" htmlFor={props.roleCode}>
                 {props.label}
             </label>
         </div>
