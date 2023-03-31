@@ -5,5 +5,9 @@ export default function loader (): Promise<{ roles: any[] }> {
         return {
             roles: data?.data
         };
+    }).catch(error => {
+        return {
+            roles: []
+        }
     });
 }
