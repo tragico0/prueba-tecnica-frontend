@@ -1,3 +1,4 @@
+import { get } from "lodash";
 import React, { useContext, useState } from "react";
 import { redirect, useLoaderData, useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
@@ -13,6 +14,7 @@ export default function CreateEmployee () {
     async function handleCreateNewEmployee (e: React.MouseEvent<HTMLButtonElement>) {
         try {
             const response = await createNewEmployee(formData);
+
             if (response.ok) {
                 return navigate('..');
             }
@@ -56,9 +58,13 @@ function CreateEmployeeForm () {
     const handleOnRoleCheck = (e: React.FormEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
-            roleCode: e.currentTarget.dataset?.roleCode ?? RoleCode.DRIVER
+            roleId: Number(e.currentTarget.dataset?.roleId) ?? 0
         });
     };
+
+    const setSelectedId = (formDataId: number = 0) => {
+        return (formDataId !== 0 ? formDataId : get(roles, '[0].id', 0));
+    }
 
     return (
         <form className="row">
@@ -79,7 +85,7 @@ function CreateEmployeeForm () {
                         </div>
                         <div className="row mb-3">
                             <div className="col">
-                                <SelectEmployeeRole selectedCode={formData.roleCode} roles={roles} onRoleCheck={ handleOnRoleCheck} />
+                                <SelectEmployeeRole selectedId={setSelectedId(formData.roleId)} roles={roles} onRoleCheck={handleOnRoleCheck} />
                             </div>
                         </div>
                     </div>

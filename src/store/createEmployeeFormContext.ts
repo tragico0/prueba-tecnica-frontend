@@ -4,7 +4,7 @@ import { RoleCode } from "../utils/enums";
 export type CreateEmployeeFormData = {
     name?: string;
     reference?: string;
-    roleCode?: string;
+    roleId?: number;
 };
 
 type CreateEmployeeFormContextType = {
@@ -15,7 +15,7 @@ type CreateEmployeeFormContextType = {
 export const defaultFormDataValues: CreateEmployeeFormData = {
     name: '',
     reference: '',
-    roleCode: RoleCode.DRIVER
+    roleId: 0
 };
 
 export const CreateEmployeeFormContext = createContext<CreateEmployeeFormContextType>({

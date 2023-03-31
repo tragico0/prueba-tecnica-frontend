@@ -1,11 +1,11 @@
-import { isNil } from "lodash";
+import { isEmpty } from "lodash";
 import React from "react";
 import EmployeeRoleOption from "./EmployeeRoleOption";
 
 interface Props {
     children?: React.ReactNode,
-    roles: string[],
-    selectedCode?: string,
+    roles: any[],
+    selectedId?: number,
     onRoleCheck: (e: React.FormEvent<HTMLInputElement>) => void
 }
 
@@ -22,19 +22,19 @@ const roleCodeLabels: RoleCodeLabels = {
 };
 
 export default function SelectEmployeeRole (props: Props) {
-    if (isNil(props.roles)) {
+    if (isEmpty(props.roles)) {
         return (<div>No hay roles</div>);
     }
 
-    const roles = props.roles.map((role: string) => {
+    const roles = props.roles.map((role: any) => {
         return {
-            code: role,
-            label: roleCodeLabels['default'][role]
+            ...role,
+            label: roleCodeLabels['default'][role.code]
         };
     });
 
-    const isOptionsChecked = function (code: string) {
-        return code === props.selectedCode;
+    const isOptionsChecked = function (id: number) {
+        return id === props.selectedId;
     };
 
     return (
@@ -45,12 +45,12 @@ export default function SelectEmployeeRole (props: Props) {
                         Roles:
                     </div>
                     <div className="col-sm-6">
-                    {roles.map((role: any, index: number) => (
+                    {roles.map((role: any) => (
                         <EmployeeRoleOption
-                            key={index}
+                            key={role.id}
+                            roleId={role.id}
+                            isChecked={isOptionsChecked(role.id)}
                             label={role.label}
-                            roleCode={role.code}
-                            isChecked={isOptionsChecked(role.code)}
                             onChange={props.onRoleCheck}
                         />
                     ))}
