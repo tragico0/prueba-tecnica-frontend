@@ -22,7 +22,8 @@ export function getEndpointUrl (name: Endpoint) {
 
 export enum Endpoint {
     CreateEmployee = '/employees/create',
-    GetRoles = '/roles'
+    GetRoles = '/roles',
+    PayrollByMonth = '/payroll/monthly'
 }
 
 
@@ -65,4 +66,8 @@ export function useRoles () {
    
 export function fetchEmployeeRoles () {
     return fetch(getEndpointUrl(Endpoint.GetRoles));
+}
+
+export function fetchPayrollByMonth () {
+    return fetch (getEndpointUrl(Endpoint.PayrollByMonth));
 }

@@ -8,6 +8,8 @@ import RootLayout from './routes/RootLayout';
 import CreateEmployee from './routes/CreateEmployee';
 import CreateEmployeeMovement from './routes/CreateEmployeeMovement';
 import loadEmployeesCreateData from './loaders/load-employee-create-data';
+import loadPayrollMonthlyData from './loaders/load-payroll-monthly-data';
+import PayrollMonthly from './routes/PayrollMonthly';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -18,6 +20,9 @@ const router = createBrowserRouter([
         {path: 'employees', element: null, children: [
             {path: 'create', element: <CreateEmployee />, loader: loadEmployeesCreateData},
             {path: 'create-movement', element: <CreateEmployeeMovement />}
+        ]},
+        {path: 'payroll', element: null, children: [
+            {path: 'monthly', element: <PayrollMonthly />, loader: loadPayrollMonthlyData}
         ]}
     ]}
 ]);
