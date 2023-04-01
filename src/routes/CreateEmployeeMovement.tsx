@@ -8,12 +8,16 @@ export default function CreateEmployeeMovement () {
     const [formData, setFormData] = useState(defaultCreateEmployeeMovementFormValues);
     const navigate = useNavigate();
 
-    async function handleCreateNewEmployee (e: React.MouseEvent<HTMLButtonElement>) {
+    async function handleOnNewButtonClick () {
+        setFormData(defaultCreateEmployeeMovementFormValues);
+    }
+
+    async function handleAddDeliveries (e: React.MouseEvent<HTMLButtonElement>) {
         try {
             const response = await addEmployeeDeliveries(formData);
 
             if (response.ok) {
-                return navigate('..');
+                return navigate('/payroll/monthly');
             }
 
             const errorBody = await response.json();
@@ -28,7 +32,7 @@ export default function CreateEmployeeMovement () {
             <div className="row">
                 <div className="col">
                     <CreateEmployeeMovementFormContext.Provider value={{formData, setFormData}}>
-                        <FormContainer title="Captura de movimientos por mes" onClickNewButton={handleCreateNewEmployee}>
+                        <FormContainer title="Captura de movimientos por mes" onClickNewButton={handleOnNewButtonClick} onClickSaveButton={handleAddDeliveries}>
                             <CreateEmployeeMovementForm />
                         </FormContainer>
                     </CreateEmployeeMovementFormContext.Provider>
