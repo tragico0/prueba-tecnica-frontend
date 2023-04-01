@@ -12,7 +12,7 @@ export default function PayrollMonthly () {
                     <table className="table table-stripped">
                     <thead>
                         <tr>
-                        <th scope="col">referencia</th>
+                        <th scope="col">Referencia</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Horas Trabajadas</th>
                         <th scope="col">Sueldo Total</th>

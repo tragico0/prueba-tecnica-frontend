@@ -29,7 +29,7 @@ export default function ListEmployees () {
                     <table className="table table-stripped">
                     <thead>
                         <tr>
-                        <th scope="col">referencia</th>
+                        <th scope="col">Referencia</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Sueldo / Hora</th>
                         <th scope="col">Rol</th>
