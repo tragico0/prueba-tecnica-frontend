@@ -1,5 +1,5 @@
 import { get, isNil } from "lodash";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
 import SelectEmployeeRole from "../components/SelectEmployeeRole";
@@ -8,9 +8,7 @@ import { createNewEmployee, editEmployee } from "../utils/api";
 
 export default function CreateEmployee (props: any) {
     const {isEditing, employee}: any = useLoaderData();
-    const [formData, setFormData] = useState<CreateEmployeeFormData>(
-        setInitialFormData(employee)
-    );
+    const [formData, setFormData] = useState<CreateEmployeeFormData>(defaultFormDataValues);
     const navigate = useNavigate();
 
     async function handleCreateNewEmployee (e: React.MouseEvent<HTMLButtonElement>) {
@@ -55,16 +53,33 @@ export default function CreateEmployee (props: any) {
         <div className="container">
             <CreateEmployeeFormContext.Provider value={{formData, setFormData}}>
                 <FormContainer title="Empleados" onClickNewButton={handleCreateNewEmployee} onClickSaveButton={handleSaveEmployee}>
-                    <CreateEmployeeForm />
+                    <CreateEmployeeForm isEditing={isEditing} employee={employee} />
                 </FormContainer>
             </CreateEmployeeFormContext.Provider>
         </div>
     );
 }
 
-function CreateEmployeeForm () {
+function CreateEmployeeForm (props: any) {
     const { formData, setFormData } = useContext(CreateEmployeeFormContext);
     const { roles } = useLoaderData() as { roles: any[] };
+
+    useEffect(() => {
+        const employee = props.employee;
+        if (props.isEditing) {
+            setFormData({
+                ...formData,
+                name: employee.firstName,
+                reference: employee.reference,
+                roleId: employee.roleId
+            });
+        } else {
+            setFormData({
+                ...formData,
+                roleId: roles[0].id
+            });
+        }
+    }, [props.isEditing]);
 
     const handleOnReferenceChange = (e: React.FormEvent<HTMLInputElement>) => {
         setFormData({
@@ -118,12 +133,4 @@ function CreateEmployeeForm () {
             </div>
         </form>
     );
-}
-
-function setInitialFormData (employee: any): CreateEmployeeFormData {
-    return (isNil(employee) ? defaultFormDataValues : {
-        reference: employee.reference,
-        name: employee.firstName + employee.firstLastName,
-        roleId: employee.role.id
-    });
 }
