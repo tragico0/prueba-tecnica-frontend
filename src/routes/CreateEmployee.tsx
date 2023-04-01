@@ -12,31 +12,22 @@ export default function CreateEmployee (props: any) {
     const navigate = useNavigate();
 
     async function handleCreateNewEmployee (e: React.MouseEvent<HTMLButtonElement>) {
-        try {
-            const response = await createNewEmployee(formData);
-
-            if (response.ok) {
-                return navigate('..');
-            }
-
-            const errorBody = await response.json();
-            console.info('There was an error when trying to create the employee', response.status, errorBody);
-        } catch (error) {
-            console.error(error);
-        }
+        return navigate('/employees/create');
     }
 
     async function handleSaveEmployee (e: React.MouseEvent<HTMLButtonElement>) {
-        if (!isEditing) {
-            return;
-        }
-
         try {
-            const response = await editEmployee({
-                ...formData,
-                id: employee.id,
-                hourlyRate: employee.hourlyRate
-            });
+            let response: Response;
+        
+            if (isEditing) {
+                response = await editEmployee({
+                    ...formData,
+                    id: employee.id,
+                    hourlyRate: employee.hourlyRate
+                });
+            } else {
+                response = await createNewEmployee(formData);
+            }
 
             if (response.ok) {
                 return navigate('..');
