@@ -1,5 +1,6 @@
 import { isEmpty } from "lodash";
 import React from "react";
+import { getDefaultRoleCodeLabel } from "../utils/general";
 import EmployeeRoleOption from "./EmployeeRoleOption";
 
 interface Props {
@@ -9,18 +10,6 @@ interface Props {
     onRoleCheck: (e: React.FormEvent<HTMLInputElement>) => void
 }
 
-interface RoleCodeLabels {
-    [key: string]: any
-}
-
-const roleCodeLabels: RoleCodeLabels = {
-    default: {
-        'DRIVER': 'Chofer',
-        'LOADER': 'Cargador',
-        'AUXILIARY': 'Auxiliar'
-    }
-};
-
 export default function SelectEmployeeRole (props: Props) {
     if (isEmpty(props.roles)) {
         return (<div>No hay roles</div>);
@@ -29,7 +18,7 @@ export default function SelectEmployeeRole (props: Props) {
     const roles = props.roles.map((role: any) => {
         return {
             ...role,
-            label: roleCodeLabels['default'][role.code]
+            label: getDefaultRoleCodeLabel(role.code)
         };
     });
 

@@ -9,7 +9,9 @@ import CreateEmployee from './routes/CreateEmployee';
 import CreateEmployeeMovement from './routes/CreateEmployeeMovement';
 import loadEmployeesCreateData from './loaders/load-employee-create-data';
 import loadPayrollMonthlyData from './loaders/load-payroll-monthly-data';
+import listEmployeesLoader from './loaders/list-employees-loader';
 import PayrollMonthly from './routes/PayrollMonthly';
+import ListEmployees from './routes/ListEmployees';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -18,6 +20,7 @@ const root = ReactDOM.createRoot(
 const router = createBrowserRouter([
     {path: '/', element: <RootLayout />, children: [
         {path: 'employees', element: null, children: [
+            {index: true, element: <ListEmployees />, loader: listEmployeesLoader},
             {path: 'create', element: <CreateEmployee />, loader: loadEmployeesCreateData},
             {path: 'create-movement', element: <CreateEmployeeMovement />}
         ]},

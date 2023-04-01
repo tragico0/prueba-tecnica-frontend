@@ -23,6 +23,7 @@ export function getEndpointUrl (name: Endpoint) {
 export enum Endpoint {
     AddEmployeeDeliveries = '/employees/add-deliveries',
     CreateEmployee = '/employees/create',
+    ListEmployees = '/employees',
     GetRoles = '/roles',
     PayrollByMonth = '/payroll/monthly'
 }
@@ -89,4 +90,8 @@ export function fetchEmployeeRoles () {
 
 export function fetchPayrollByMonth () {
     return fetch (getEndpointUrl(Endpoint.PayrollByMonth));
+}
+
+export function fetchEmployees () {
+    return fetch (getEndpointUrl(Endpoint.ListEmployees));
 }
