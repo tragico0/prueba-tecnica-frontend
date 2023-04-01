@@ -9,6 +9,7 @@ import CreateEmployee from './routes/CreateEmployee';
 import CreateEmployeeMovement from './routes/CreateEmployeeMovement';
 import loadEmployeesCreateData from './loaders/load-employee-create-data';
 import loadPayrollMonthlyData from './loaders/load-payroll-monthly-data';
+import editEmployeeLoader from './loaders/edit-employee-loader';
 import listEmployeesLoader from './loaders/list-employees-loader';
 import PayrollMonthly from './routes/PayrollMonthly';
 import ListEmployees from './routes/ListEmployees';
@@ -22,7 +23,8 @@ const router = createBrowserRouter([
         {path: 'employees', element: null, children: [
             {index: true, element: <ListEmployees />, loader: listEmployeesLoader},
             {path: 'create', element: <CreateEmployee />, loader: loadEmployeesCreateData},
-            {path: 'create-movement', element: <CreateEmployeeMovement />}
+            {path: 'create-movement', element: <CreateEmployeeMovement />},
+            {path: ':id/edit', element: <CreateEmployee />, loader: editEmployeeLoader}
         ]},
         {path: 'payroll', element: null, children: [
             {path: 'monthly', element: <PayrollMonthly />, loader: loadPayrollMonthlyData}

@@ -1,4 +1,4 @@
-import { get } from "lodash";
+import { get, isNil } from "lodash";
 import React, { useContext, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
@@ -6,8 +6,12 @@ import SelectEmployeeRole from "../components/SelectEmployeeRole";
 import { CreateEmployeeFormContext, CreateEmployeeFormData, defaultFormDataValues } from '../store/createEmployeeFormContext';
 import { createNewEmployee } from "../utils/api";
 
-export default function CreateEmployee () {
-    const [formData, setFormData] = useState<CreateEmployeeFormData>(defaultFormDataValues);
+export default function CreateEmployee (props: any) {
+    const loaderData: any = useLoaderData();
+    const [formData, setFormData] = useState<CreateEmployeeFormData>(
+        setInitialFormData(loaderData.employee)
+    );
+
     const navigate = useNavigate();
 
     async function handleCreateNewEmployee (e: React.MouseEvent<HTMLButtonElement>) {
@@ -92,4 +96,13 @@ function CreateEmployeeForm () {
             </div>
         </form>
     );
+}
+
+function setInitialFormData (employee: any): CreateEmployeeFormData {
+    console.info('employee', employee);
+    return (isNil(employee) ? defaultFormDataValues : {
+        reference: employee.reference,
+        name: employee.firstName + employee.firstLastName,
+        roleId: employee.role.id
+    });
 }

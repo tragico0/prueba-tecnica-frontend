@@ -1,4 +1,5 @@
 import { isNil, map } from "lodash";
+import { Link } from "react-router-dom";
 import { useLoaderData } from "react-router-dom";
 import { defaultPriceFormat, getDefaultRoleCodeLabel } from "../utils/general";
 
@@ -27,8 +28,8 @@ export default function ListEmployees () {
                             <td>{defaultPriceFormat(employee.hourlyRate)}</td>
                             <td>{(isNil(employee.role.code) ? '' : getDefaultRoleCodeLabel(employee.role.code))}</td>
                             <td className="text-center">
-                                <button type="button" className="btn btn-primary me-2">E</button>
-                                <button type="button" className="btn btn-danger">D</button>
+                                <Link to={`/employees/${employee.id}/edit`} className="btn btn-primary me-2">E</Link>
+                                <Link to="/employees" className="btn btn-danger">D</Link>
                             </td>
                         </tr>
                     ))}

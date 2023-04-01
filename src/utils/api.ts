@@ -24,6 +24,7 @@ export enum Endpoint {
     AddEmployeeDeliveries = '/employees/add-deliveries',
     CreateEmployee = '/employees/create',
     ListEmployees = '/employees',
+    GetEmployeeById = '/employees',
     GetRoles = '/roles',
     PayrollByMonth = '/payroll/monthly'
 }
@@ -94,4 +95,8 @@ export function fetchPayrollByMonth () {
 
 export function fetchEmployees () {
     return fetch (getEndpointUrl(Endpoint.ListEmployees));
+}
+
+export function fetchEmployeeById (id: number) {
+    return fetch(getEndpointUrl(Endpoint.ListEmployees) + '/' + id);
 }
