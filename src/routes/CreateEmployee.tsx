@@ -1,11 +1,10 @@
 import { get } from "lodash";
 import React, { useContext, useState } from "react";
-import { redirect, useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
 import SelectEmployeeRole from "../components/SelectEmployeeRole";
 import { CreateEmployeeFormContext, CreateEmployeeFormData, defaultFormDataValues } from '../store/createEmployeeFormContext';
 import { createNewEmployee } from "../utils/api";
-import { RoleCode } from "../utils/enums";
 
 export default function CreateEmployee () {
     const [formData, setFormData] = useState<CreateEmployeeFormData>(defaultFormDataValues);

@@ -1,4 +1,3 @@
-import { isFinite, isNumber } from "lodash";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
