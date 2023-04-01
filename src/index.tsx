@@ -22,9 +22,9 @@ const router = createBrowserRouter([
     {path: '/', element: <RootLayout />, children: [
         {path: 'employees', element: null, children: [
             {index: true, element: <ListEmployees />, loader: listEmployeesLoader},
-            {path: 'create', element: <CreateEmployee />, loader: loadEmployeesCreateData},
+            {path: 'create', element: <CreateEmployee key="create" />, loader: loadEmployeesCreateData},
             {path: 'create-movement', element: <CreateEmployeeMovement />},
-            {path: ':id/edit', element: <CreateEmployee />, loader: editEmployeeLoader}
+            {path: ':id/edit', element: <CreateEmployee key="edit" />, loader: editEmployeeLoader}
         ]},
         {path: 'payroll', element: null, children: [
             {path: 'monthly', element: <PayrollMonthly />, loader: loadPayrollMonthlyData}

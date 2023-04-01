@@ -7,7 +7,8 @@ type Props = {
     ref?: React.RefObject<unknown>
     title?: string,
     children?: React.ReactNode,
-    onClickNewButton?: (event: React.MouseEvent<HTMLButtonElement>) => void
+    onClickNewButton?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+    onClickSaveButton?: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export default function FormContainer (props: Props) {
@@ -33,7 +34,7 @@ export default function FormContainer (props: Props) {
                         </div>
                         <div className="row">
                             <div className="col mt-3 p-0 text-end">
-                                <button type="button" className="btn btn-primary me-3">Guardar</button>
+                                <button type="button" className="btn btn-primary me-3" onClick={props.onClickSaveButton}>Guardar</button>
                                 <Link to=".." className="btn btn-danger">Cancelar</Link>
                             </div>
                         </div>

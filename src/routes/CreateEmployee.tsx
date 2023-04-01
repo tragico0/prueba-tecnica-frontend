@@ -4,14 +4,13 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
 import SelectEmployeeRole from "../components/SelectEmployeeRole";
 import { CreateEmployeeFormContext, CreateEmployeeFormData, defaultFormDataValues } from '../store/createEmployeeFormContext';
-import { createNewEmployee } from "../utils/api";
+import { createNewEmployee, editEmployee } from "../utils/api";
 
 export default function CreateEmployee (props: any) {
-    const loaderData: any = useLoaderData();
+    const {isEditing, employee}: any = useLoaderData();
     const [formData, setFormData] = useState<CreateEmployeeFormData>(
-        setInitialFormData(loaderData.employee)
+        setInitialFormData(employee)
     );
-
     const navigate = useNavigate();
 
     async function handleCreateNewEmployee (e: React.MouseEvent<HTMLButtonElement>) {
@@ -29,11 +28,34 @@ export default function CreateEmployee (props: any) {
         }
     }
 
+    async function handleSaveEmployee (e: React.MouseEvent<HTMLButtonElement>) {
+        if (!isEditing) {
+            return;
+        }
+
+        try {
+            const response = await editEmployee({
+                ...formData,
+                id: employee.id,
+                hourlyRate: employee.hourlyRate
+            });
+
+            if (response.ok) {
+                return navigate('..');
+            }
+
+            const errorBody = await response.json();
+            console.info('There was an error when trying to create the employee', response.status, errorBody);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <div className="container">
             <CreateEmployeeFormContext.Provider value={{formData, setFormData}}>
-                <FormContainer title="Empleados" onClickNewButton={handleCreateNewEmployee}>
-                    <CreateEmployeeForm/>
+                <FormContainer title="Empleados" onClickNewButton={handleCreateNewEmployee} onClickSaveButton={handleSaveEmployee}>
+                    <CreateEmployeeForm />
                 </FormContainer>
             </CreateEmployeeFormContext.Provider>
         </div>
@@ -99,7 +121,6 @@ function CreateEmployeeForm () {
 }
 
 function setInitialFormData (employee: any): CreateEmployeeFormData {
-    console.info('employee', employee);
     return (isNil(employee) ? defaultFormDataValues : {
         reference: employee.reference,
         name: employee.firstName + employee.firstLastName,

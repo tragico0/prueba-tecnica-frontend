@@ -1,3 +1,4 @@
+import { isEmpty, keys, reduce } from "lodash";
 import useSWR, {SWRResponse} from "swr";
 
 interface GetApiUrlOptions {
@@ -16,13 +17,25 @@ export function getApiUrl (options = defaultGetApiUrlOptions) {
     return `${protocol}://${process.env.REACT_APP_API_DOMAIN}/api/v${options.apiVersion}`;
 }
 
-export function getEndpointUrl (name: Endpoint) {
-    return getApiUrl() + name;
+export function getEndpointUrl (name: Endpoint, params: any = {}) {
+    let url = getApiUrl() + name;
+
+    if (isEmpty(params)) {
+        return url;
+    }
+
+    url = reduce(keys(params), (acc, key) => {
+        acc = acc.replace(':' + key, params[key]);
+        return acc;
+    }, url);
+
+    return url;
 }
 
 export enum Endpoint {
     AddEmployeeDeliveries = '/employees/add-deliveries',
     CreateEmployee = '/employees/create',
+    EditEmployee = '/employees/:id/edit',
     ListEmployees = '/employees',
     GetEmployeeById = '/employees',
     GetRoles = '/roles',
@@ -43,6 +56,24 @@ export function createNewEmployee (data: any) {
             data: {
                 ...passthrough,
                 firstName: name,
+            }
+        })
+    });
+}
+
+export function editEmployee (data: any) {
+    return fetch(getEndpointUrl(Endpoint.EditEmployee, {id: data.id}), {
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            data: {
+                reference: data.reference,
+                firstName: data.name,
+                firstLastName: '',
+                hourlyRate: data.hourlyRate,
+                roleId: data.roleId
             }
         })
     });
