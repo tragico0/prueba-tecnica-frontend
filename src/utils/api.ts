@@ -36,6 +36,7 @@ export enum Endpoint {
     AddEmployeeDeliveries = '/employees/add-deliveries',
     CreateEmployee = '/employees/create',
     EditEmployee = '/employees/:id/edit',
+    DeleteEmployee = '/employees/:id/delete',
     ListEmployees = '/employees',
     GetEmployeeById = '/employees',
     GetRoles = '/roles',
@@ -76,6 +77,15 @@ export function editEmployee (data: any) {
                 roleId: data.roleId
             }
         })
+    });
+}
+
+export function deleteEmployee (data: any) {
+    return fetch(getEndpointUrl(Endpoint.DeleteEmployee, {id: data.id}), {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        }
     });
 }
 

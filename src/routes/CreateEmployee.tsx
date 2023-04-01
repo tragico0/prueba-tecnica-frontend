@@ -1,4 +1,4 @@
-import { get, isNil } from "lodash";
+import { get } from "lodash";
 import React, { useContext, useEffect, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
@@ -79,7 +79,9 @@ function CreateEmployeeForm (props: any) {
                 roleId: roles[0].id
             });
         }
-    }, [props.isEditing]);
+    
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.isEditing]); 
 
     const handleOnReferenceChange = (e: React.FormEvent<HTMLInputElement>) => {
         setFormData({
