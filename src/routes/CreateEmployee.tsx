@@ -59,14 +59,14 @@ function CreateEmployeeForm (props: any) {
         const employee = props.employee;
         if (props.isEditing) {
             setFormData({
-                ...formData,
+                ...defaultFormDataValues,
                 name: employee.firstName,
                 reference: employee.reference,
                 roleId: employee.roleId
             });
         } else {
             setFormData({
-                ...formData,
+                ...defaultFormDataValues,
                 roleId: roles[0].id
             });
         }
