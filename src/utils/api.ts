@@ -21,6 +21,7 @@ export function getEndpointUrl (name: Endpoint) {
 }
 
 export enum Endpoint {
+    AddEmployeeDeliveries = '/employees/add-deliveries',
     CreateEmployee = '/employees/create',
     GetRoles = '/roles',
     PayrollByMonth = '/payroll/monthly'
@@ -40,6 +41,24 @@ export function createNewEmployee (data: any) {
             data: {
                 ...passthrough,
                 firstName: name,
+            }
+        })
+    });
+}
+
+export function addEmployeeDeliveries (data: any) {
+    const { reference, name, role, ...passThrough } = data;
+    return fetch(getEndpointUrl(Endpoint.AddEmployeeDeliveries), {
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            data: {
+                employeeReference: data.reference,
+                employeeName: data.name,
+                employeeRole: data.role,
+                ...passThrough
             }
         })
     });
