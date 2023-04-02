@@ -11,10 +11,11 @@ const defaultGetApiUrlOptions: GetApiUrlOptions = {
     apiVersion: 1
 };
 
+const apiPrefix = process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL + '/api' : '';
+
 export function getApiUrl (options = defaultGetApiUrlOptions) {
     const protocol = options.useSSL ? 'https' : 'http';
-
-    return `${protocol}://${process.env.REACT_APP_API_DOMAIN}/api/v${options.apiVersion}`;
+    return `${protocol}://${process.env.REACT_APP_API_DOMAIN}${apiPrefix}/v${options.apiVersion}`;
 }
 
 export function getEndpointUrl (name: Endpoint, params: any = {}) {
