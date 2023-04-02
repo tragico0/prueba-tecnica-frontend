@@ -30,7 +30,7 @@ const router = createBrowserRouter([
             {path: 'monthly', element: <PayrollMonthly />, loader: loadPayrollMonthlyData}
         ]}
     ]}
-]);
+], {basename: process.env.REACT_APP_BASENAME});
 
 root.render(
     <React.StrictMode>
